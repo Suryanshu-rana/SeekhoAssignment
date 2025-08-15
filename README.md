@@ -4,11 +4,11 @@
 Anime Explorer is a modern Android application that allows users to browse and explore top anime titles. Built with Jetpack Compose and following MVVM architecture, this app demonstrates best practices in Android development including offline caching, responsive UI, and video playback integration.
 
 ## Features
-<<<<<<< HEAD
 
-=======
-https://github.com/user-attachments/assets/0eee37e4-36e0-4afd-a056-9c6f5c3a2566
->>>>>>> e568ef412d42e27812f36556a7f95a7b03086800
+
+https://github.com/user-attachments/assets/bec83775-d2da-4b70-88dc-e0b7c0038902
+
+
 ### Anime List Screen
 - Grid-based display of top anime titles
 - Each anime card shows:
