@@ -21,6 +21,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.suryanshu.seekhoassignment.ui.components.YouTubePlayer
+import com.suryanshu.seekhoassignment.util.VideoPlayerUtil
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.suryanshu.seekhoassignment.data.model.AnimeData
@@ -90,17 +92,39 @@ fun AnimeDetailsContent(animeData: AnimeData) {
     val scrollState = rememberScrollState()
     
     // Setup ExoPlayer if trailer is available
-    val hasTrailer = !animeData.trailer?.youtubeId.isNullOrEmpty() || !animeData.trailer?.url.isNullOrEmpty()
+    val hasTrailer = !animeData.trailer?.youtubeId.isNullOrEmpty() || !animeData.trailer?.url.isNullOrEmpty() || !animeData.trailer?.embedUrl.isNullOrEmpty()
     val exoPlayer = remember {
         if (hasTrailer) {
-            ExoPlayer.Builder(context).build().apply {
-                val trailerUrl = animeData.trailer?.url
-                if (!trailerUrl.isNullOrEmpty()) {
-                    val mediaItem = MediaItem.fromUri(Uri.parse(trailerUrl))
-                    setMediaItem(mediaItem)
-                    prepare()
+            // Try to get video URL from different sources
+            val youtubeId = animeData.trailer?.youtubeId
+            val embedUrl = animeData.trailer?.embedUrl
+            val directUrl = animeData.trailer?.url
+            
+            // Determine the best video URL to use
+            val videoUrl = when {
+                // First priority: Use YouTube ID if available
+                !youtubeId.isNullOrEmpty() -> {
+                    VideoPlayerUtil.getYouTubeUrl(youtubeId)
                 }
+                // Second priority: Use embed URL if available
+                !embedUrl.isNullOrEmpty() -> {
+                    // Try to extract YouTube ID from embed URL
+                    val extractedId = VideoPlayerUtil.extractYouTubeId(embedUrl)
+                    if (extractedId != null) {
+                        VideoPlayerUtil.getYouTubeUrl(extractedId)
+                    } else {
+                        embedUrl
+                    }
+                }
+                // Last resort: Use direct URL
+                !directUrl.isNullOrEmpty() -> directUrl
+                // No valid URL found
+                else -> null
             }
+            
+            if (!videoUrl.isNullOrEmpty()) {
+                VideoPlayerUtil.createExoPlayer(context, videoUrl, true)
+            } else null
         } else null
     }
     
@@ -119,8 +143,19 @@ fun AnimeDetailsContent(animeData: AnimeData) {
             .background(MaterialTheme.colorScheme.background)
     ) {
         // Video Player or Poster Image
-        if (hasTrailer && exoPlayer != null) {
-            // Video Player
+        val youtubeId = animeData.trailer?.youtubeId
+        
+        if (!youtubeId.isNullOrEmpty()) {
+            // Use YouTube Player for YouTube videos
+            YouTubePlayer(
+                youtubeVideoId = youtubeId,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                autoPlay = true
+            )
+        } else if (hasTrailer && exoPlayer != null) {
+            // Use ExoPlayer for other video types
             AndroidView(
                 factory = { ctx ->
                     PlayerView(ctx).apply {

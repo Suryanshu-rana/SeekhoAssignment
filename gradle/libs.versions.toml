@@ -19,7 +19,7 @@ retrofitKotlinxSerialization = "1.0.0"
 kotlinxSerializationJson = "1.9.0"
 ksp = "2.2.0-2.0.2"
 kotlinxCoroutines = "1.10.2"
-exoPlayer = "1.8.0"
+exoPlayer = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +66,8 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 # ExoPlayer for video playback
 exoplayer-core = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "exoPlayer" }
 exoplayer-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "exoPlayer" }
+exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "exoPlayer" }
+exoplayer-hls = { group = "androidx.media3", name = "media3-exoplayer-hls", version.ref = "exoPlayer" }
 
 [plugins]
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "2.2.0" }

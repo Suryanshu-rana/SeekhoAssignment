@@ -83,6 +83,11 @@ dependencies {
     // ExoPlayer for video playback
     implementation(libs.exoplayer.core)
     implementation(libs.exoplayer.ui)
+    implementation(libs.exoplayer.dash)
+    implementation(libs.exoplayer.hls)
+    
+    // YouTube Player
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
