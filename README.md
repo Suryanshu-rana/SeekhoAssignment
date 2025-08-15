@@ -100,9 +100,4 @@ The application follows the Model-View-ViewModel (MVVM) architecture pattern:
 - Icons and design elements from Material Design
 
 ## License
-
-<<<<<<< HEAD
 This project is submitted as an assignment and is not licensed for public distribution.
-=======
-This project is submitted as an assignment and is not licensed for public distribution.
->>>>>>> e568ef412d42e27812f36556a7f95a7b03086800
